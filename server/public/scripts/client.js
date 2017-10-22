@@ -303,6 +303,7 @@ function getTasks() {
             // hides 'table header' from DOM when no current tasks
             $('table').addClass('hidden');
         }
+        $('#clearComplete').removeClass('hidden');
     }).fail(function (error) {
         console.log('GET failed:', error);
     })
