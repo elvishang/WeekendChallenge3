@@ -303,7 +303,7 @@ function appendToDom(tasks) {
         // adds pencil icon and tooltip to edit button
         var editButton = `<button class="btn btn-info editTasks" data-toggle="tooltip" data-placement="top" title="Edit"><span class="glyphicon glyphicon-pencil"></span></button>`;
         // adds trash icon and tool tip to delete button
-        var deleteButton = `<button class="btn btn-danger delete" data-toggle="tooltip modal" data-placement="top" title="Delete" data-target=".bs-example-modal-sm"><span class="glyphicon glyphicon-trash"></span></button>`
+        var deleteButton = `<button class="btn btn-danger delete" data-toggle="tooltip" data-toggle="modal" data-placement="top" title="Delete" data-target=".bs-example-modal-sm"><span class="glyphicon glyphicon-trash"></span></button>`
         // adds green backgroud to Completed tasks and red to past due date tasks
         if (tasks[i].status === 'Complete') {
             bgClass = 'bg-success';
