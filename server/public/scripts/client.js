@@ -41,6 +41,7 @@ function readyNow() {
     });
 }
 
+
 // function to close form from cancel button clicked
 function closeForm() {
     $('.collapse').collapse('hide')
