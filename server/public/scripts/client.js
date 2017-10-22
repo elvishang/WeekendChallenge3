@@ -11,13 +11,24 @@ function readyNow() {
     getTasks();
     // add tasks button click
     $('#addButton').on('click', addButtonClick);
-    $('#viewTasks').on('click', '.delete', deleteTask);
+    $('#viewTasks').on('click', '.delete', confirmDeleteTask);
+    $('#delete-modal').on('click', '.delete', deleteTask);
     $('#viewTasks').on('click', '.editTasks', editTasksFunction)
     $('#viewTasks').on('change', 'tr select', onStatusChange);
-
+    $('#addTaskBtn').on('click', showForm)
+    $('#cancelBtn').on('click', closeForm)
     $('.date-picker').datetimepicker({
         format: 'MM/DD/YYYY'
     });
+}
+
+function closeForm() {
+    $('.collapse').collapse('hide')
+    $('#addTaskBtn').css("visibility", "visible");
+}
+
+function showForm() {
+    $(this).css("visibility", "hidden");
 }
 
 function onStatusChange(event) {
@@ -94,7 +105,7 @@ function addButtonClick() {
 
         if (editing === true) {
             editing = false;
-            sendEdits();
+            saveTask();
         } else {
             // call sendTask with the new obejct
             sendTask(objectToSend);
@@ -133,30 +144,35 @@ function sendTask(newTask) {
         newTask.id = response;
         // addTaskToBody(newTask);
         getTasks();
+
+        $("#addTaskBtn").css("visibility", "visible");
+        $('.collapse').collapse('hide');
     }).fail(function (error) {
         console.log('Failed:', error);
     })
 }
 
+var toDeleteId;
 //DELETE AJAX call to remove a task
-function deleteTask() {
-    var result = confirm("Are you sure?");
-    console.log('result', result);
-    if (result) {
-        var $tr = $(this).closest('tr');
-        id = $(this).closest('tr').data('task').id;
-        console.log(id);
-        $.ajax({
-            method: 'DELETE',
-            url: '/tasks/' + id
-        }).done(function (response) {
-            // remove the selected row instead of getting all the tasks from the server and rendering it again
-            $tr.remove();
-        }).fail(function (error) {
-            console.log('Error deleting', error);
-        })
-    }
+function confirmDeleteTask() {
+    $('#delete-modal').modal();
+    toDeleteId = $(this).closest('tr').data('id');
+    console.log(toDeleteId);
+}
 
+function deleteTask() {
+    $('#delete-modal').modal('hide');
+    $.ajax({
+        method: 'DELETE',
+        url: '/tasks/' + toDeleteId
+    }).done(function (response) {
+        // remove the selected row instead of getting all the tasks from the server and rendering it again
+        $('tr[data-id=' + toDeleteId + ']').fadeOut(500, function(){
+            $(this).remove();
+        })
+    }).fail(function (error) {
+        console.log('Error deleting', error);
+    })
 }
 
 // appends to DOM
@@ -176,23 +192,28 @@ function appendToDom(tasks) {
                         <option value="Complete">Complete</option>
                     </select>`;
 
-        var edit = `<button class="btn btn-info editTasks" data-toggle="tooltip" data-placement="top" title="Edit"><span                            class="glyphicon glyphicon-pencil"></span></button>`;
+        var editButton = `<button class="btn btn-info editTasks" data-toggle="tooltip" data-placement="top" title="Edit"><span class="glyphicon glyphicon-pencil"></span></button>`;
 
-        var deleteTask = `<button class="btn btn-danger delete"><span class="glyphicon glyphicon-trash"></span></button>`
+        var deleteButton = `<button class="btn btn-danger delete" data-toggle="tooltip modal" data-placement="top" title="Delete" data-target=".bs-example-modal-sm"><span class="glyphicon glyphicon-trash"></span></button>`
 
         if (tasks[i].status === 'Complete') {
             bgClass = 'bg-success';
         } else if (moment(tasks[i].duedate, 'MM/DD/YYYY').isBefore(moment())) {
             bgClass = 'bg-danger';
         }
-        var $tr = $tr = $('<tr data-index="' + i + '" data-id="' + tasks[i].id + '" class=" ' + bgClass + '"><td>' + tasks[i].tasks + '</td><td>' + tasks[i].priority + '</td><<td>' + tasks[i].startdate + '</td><td>' + tasks[i].duedate + '</td><td>' + status + '</td><td>' + edit + '</td><td>' + deleteTask + '</td></tr>');
+        var $tr = $tr = $('<tr style="display:none" data-index="' + i + '" data-id="' + tasks[i].id + '" class=" ' + bgClass + '"><td>' + tasks[i].tasks + '</td><td>' + tasks[i].priority + '</td><<td>' + tasks[i].startdate + '</td><td>' + tasks[i].duedate + '</td><td>' + status + '</td><td class="text-center">' + editButton + deleteButton + '</td></tr>');
 
         $tr.data('task', tasks[i]);
         $('#viewTasks').append($tr);
-
         // after we append the data, go and change the select button value to the selected status
         $tr.find('select').val(tasks[i].status);
+        
+        $tr.fadeIn('slow');
+
+        
     }
+
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 var editingTask;
@@ -212,9 +233,12 @@ function editTasksFunction() {
     $('#priorityIn').val(priority);
     $('#startDateIn').data('DateTimePicker').date(startDate);
     $('#dueDateIn').data('DateTimePicker').date(dueDate);
-}; // end PUT ajax
 
-function sendEdits() {
+    $('#addTaskBtn').css("visibility", "hidden");
+    $('.collapse').collapse('show');
+};
+
+function saveTask() {
     var task = $('#taskIn').val();
     var priority = $('#priorityIn').val();
     var startDate = $('#startDateIn').data('DateTimePicker').date().format('MM/DD/YYYY');
@@ -228,7 +252,7 @@ function sendEdits() {
         status: editingTask.status
     }
 
-    console.log('sendEdits and the editingID is:', editingId);
+    console.log('saveTask and the editingID is:', editingId);
     console.log('This is the updateTask:', updateTask);
 
     $.ajax({
@@ -238,6 +262,8 @@ function sendEdits() {
     }).done(function (response) {
         console.log('send edits function response:', response)
         $('#addButton').text('Add Task').removeClass("btn-success");
+        $('#addTaskBtn').css("visibility", "visible");
+        $('.collapse').collapse('hide');
         getTasks();
     }).fail(function (error) {
         console.log('error getting update tasks back:', error)

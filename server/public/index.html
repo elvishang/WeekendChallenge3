@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="vendors/jquery.js" charset="utf-8"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
     <script src="scripts/bootstrap-datetimepicker.min.js"></script>
     <script src="scripts/client.js" charset="utf-8"></script>
@@ -17,48 +18,56 @@
 
 <body>
     <div class="container">
-        <h1>To Do List</h1>
-        <div id="addtask">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="task">Task</label>
-                        <input class="form-control" type="text" id="taskIn" value="">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label for="priority">Priority</label>
-                        <select class="form-control" id="priorityIn">
-                            <option value="">Select a priority</option>
-                            <option value="High">High</option>
-                            <option value="Normal">Normal</option>
-                            <option value="Low">Low</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <label for="startDate">Start Date</label>
-                    <div class="input-group date date-picker" id="startDateIn" data-datepicker-format="mm/dd/yyyy">
-                        <input class="form-control" size="16" type="text">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <label for="dueDate">Due Date</label>
-                    <div class="input-group date date-picker" id="dueDateIn" data-datepicker-format="mm/dd/yyyy">
-                        <input class="form-control" size="16" type="text">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    </div>
-                </div>
-            </div>
-            <input type="text" class="hidden" id="statusHidden">
-            <button type="button" class="btn btn-primary submit pull-right" id="addButton">Add task</button>
-        </div>
+        <h1>To-Do List</h1>
+        <button class="btn btn-primary" id="addTaskBtn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Add Task
+              </button>
+              <div class="collapse" id="collapseExample">
+                    <div id="addtask">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="task">Task</label>
+                                        <input class="form-control" type="text" id="taskIn" value="">
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="priority">Priority</label>
+                                        <select class="form-control" id="priorityIn">
+                                            <option value="">Select a priority</option>
+                                            <option value="High">High</option>
+                                            <option value="Normal">Normal</option>
+                                            <option value="Low">Low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <label for="startDate">Start Date</label>
+                                    <div class="input-group date date-picker" id="startDateIn" data-datepicker-format="mm/dd/yyyy">
+                                        <input class="form-control" size="16" type="text">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="dueDate">Due Date</label>
+                                    <div class="input-group date date-picker" id="dueDateIn" data-datepicker-format="mm/dd/yyyy">
+                                        <input class="form-control" size="16" type="text">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" class="hidden" id="statusHidden">
+                            
+                            <button type="button" class="btn btn-primary submit pull-right" id="addButton">Save Task</button>
+                            <button type="button" class="btn btn-warning submit pull-right" id="cancelBtn">Cancel</button>
+                        </div>
+              </div>
+        
         <div>
             <table class="table table-bordered">
                 <thead>
@@ -68,13 +77,31 @@
                         <th>Start Date</th>
                         <th>Due Date</th>
                         <th>Status</th>
-                        <th>Edit</th>
-                        <th>Remove</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="viewTasks">
                 </tbody>
         </div>
+
+
+              
+
+
+        <div id="delete-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                              <div class="modal-body">
+                                    <h4>Are you sure?</h4>
+                                  
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                <button type="button" class="btn btn-success delete">Yes</button>
+                              </div>
+                  </div>
+                </div>
+              </div>
 </body>
 
 </html>

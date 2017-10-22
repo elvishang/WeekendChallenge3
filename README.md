@@ -30,7 +30,7 @@ This weekend is all about showing us that you have a handle on each of the diffe
 ## Hard Mode
 [X] In whatever fashion you would like, create an 'are you sure: yes / no' option when deleting a task.
 
-[] Use jQuery to add animation to your page when you add or remove an item to the list.
+[X] Use jQuery to add animation to your page when you add or remove an item to the list.
 
 ## Pro Mode
 [] Publish your app to Heroku.

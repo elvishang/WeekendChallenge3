@@ -1,16 +1,6 @@
 var express = require('express');
 var pg = require('pg');
-// var poolModule = require('../modules/pool.js');
-// var pool = poolModule;
-var config = {
-    database: 'deneb',
-    host: 'localhost',
-    port: 5432,
-    max: 10,
-    idleTimeoutMillis: 30000
-};
-
-var pool = new pg.Pool(config);
+var pool = require('../modules/pool.js');
 
 var router = express.Router();
 

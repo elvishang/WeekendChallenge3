@@ -1,3 +1,15 @@
 #addButton {
     margin-bottom: 15px;
 }
+
+.editTasks {
+    margin-right: 5px;
+}
+
+#addTaskBtn {
+    margin-bottom: 10px;
+}
+
+#cancelBtn {
+    margin-right: 5px;
+}
