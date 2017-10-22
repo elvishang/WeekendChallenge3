@@ -110,6 +110,7 @@ function saveAddClick() {
             saveAddTask(objectToSend);
         }
         $('#addtask .form-control').val('');
+        $('#saveAdd').text('Add more tasks...')
     } else {
         alert("Please complete the form");
     }
@@ -192,8 +193,9 @@ function activeBtnClick() {
 
 // function to close form from cancel button clicked
 function closeForm() {
-    $('.collapse').collapse('hide')
+    $('.collapse').collapse('hide');
     $('#addTaskBtn').css("visibility", "visible");
+    $('#saveAdd').text('Add More Than One');
 }
 
 // function to show form when add task button is clicked
@@ -266,6 +268,7 @@ function addButtonClick() {
             sendTask(objectToSend);
         }
         $('#addtask .form-control').val('');
+        $('#saveAdd').text('Add More Than One');
     } else {
         alert("Please complete the form");
     }
