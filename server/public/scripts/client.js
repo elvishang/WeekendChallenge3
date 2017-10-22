@@ -31,6 +31,7 @@ function readyNow() {
     $('#completedBtn').on('click', completedBtnClick);
     // deletes all current completed tasks from db on clicked
     $('#clearComplete').on('click', clearCompleteClick);
+    $('#saveAdd').on('click', saveAddClick);
     // allows to choose date with calendar
     $('#startDateIn').datetimepicker({
         format: 'MM/DD/YYYY',
@@ -47,6 +48,71 @@ function readyNow() {
         defaultDate: moment(),
         minDate: moment()
     });
+}
+
+function saveAddTask(newTask) {
+    console.log('in saveTask', newTask);
+    $.ajax({
+        type: 'POST',
+        url: '/tasks',
+        data: newTask
+    }).done(function (response) {
+        console.log('added', response);
+        newTask.id = response;
+        getTasks();
+        // shows 'add task' button when form is complete
+        $("#addTaskBtn").css("visibility", "hidden");
+        // hides form after clicked
+        $('.collapse').collapse('show');
+    }).fail(function (error) {
+        console.log('Failed:', error);
+    });
+}
+
+function saveAddClick() {
+    var task = $('#taskIn').val();
+    var priority = $('#priorityIn').val();
+    var startDate = $('#startDateIn').data('DateTimePicker').date().format('MM/DD/YYYY');
+    var dueDate = $('#dueDateIn').data('DateTimePicker').date().format('MM/DD/YYYY');
+    var status = 'Not Started'
+    // get user input form validation
+
+    var formComplete = true;
+    if (task === '') {
+        formComplete = false;
+    }
+    if (priority === '') {
+        formComplete = false;
+    }
+    if (startDate === '' || !moment(startDate, 'MM/DD/YYYY', true).isValid()) {
+        formComplete = false;
+    }
+    if (dueDate === '' || !moment(dueDate, 'MM/DD/YYYY', true).isValid()) {
+        formComplete = false;
+    }
+    if (status === '') {
+        formComplete = false;
+    }
+
+    if (formComplete) {
+        var objectToSend = {
+            tasks: task,
+            priority: priority,
+            startdate: startDate,
+            duedate: dueDate,
+            status: status
+        }
+        if (editing === true) {
+            editing = false;
+            saveTask();
+        } else {
+            // call sendTask with the new obejct
+            saveAddTask(objectToSend);
+        }
+        $('#addtask .form-control').val('');
+    } else {
+        alert("Please complete the form");
+    }
 }
 
 // Deletes tasks from database and recalls data to DOM
@@ -256,7 +322,7 @@ function sendTask(newTask) {
         $('.collapse').collapse('hide');
     }).fail(function (error) {
         console.log('Failed:', error);
-    })
+    });
 }
 
 var toDeleteId;
