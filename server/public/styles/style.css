@@ -13,3 +13,7 @@
 #cancelBtn {
     margin-right: 5px;
 }
+
+#clearComplete {
+    float: right;
+}

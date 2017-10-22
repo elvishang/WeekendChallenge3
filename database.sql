@@ -8,4 +8,4 @@ CREATE TABLE "todolist"(
 );
 
 INSERT INTO "todolist" ("tasks", "priority", "startdate", "duedate", "status")
-VALUES ('Finish weekend project 3', 'HIGH','10/20/2017', '10/20/2017', 'In Progress');
+VALUES ('Finish weekend project 3', 'High','10/20/2017', '10/20/2017', 'In Progress');

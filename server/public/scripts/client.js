@@ -16,13 +16,21 @@ function readyNow() {
     // delete
     $('#delete-modal').on('click', '.delete', deleteTask);
     // edit tasks
-    $('#viewTasks').on('click', '.editTasks', editTasksFunction)
+    $('#viewTasks').on('click', '.editTasks', editTasksFunction);
     // changes status
     $('#viewTasks').on('change', 'tr select', onStatusChange);
     // shoes form when add task button is clicked
-    $('#addTaskBtn').on('click', showForm)
+    $('#addTaskBtn').on('click', showForm);
     // closes form when cancel button is clicked
-    $('#cancelBtn').on('click', closeForm)
+    $('#cancelBtn').on('click', closeForm);
+    // gets all tasks to DOM on clicked
+    $('#allTasksBtn').on('click', getTasks);
+    // gets all active tasks to DOM on clicked
+    $('#activeBtn').on('click', activeBtnClick);
+    // gets all completed tasks to DOM on clicked
+    $('#completedBtn').on('click', completedBtnClick);
+    // deletes all current completed tasks from db on clicked
+    $('#clearComplete').on('click', clearCompleteClick);
     // allows to choose date with calendar
     $('#startDateIn').datetimepicker({
         format: 'MM/DD/YYYY',
@@ -39,6 +47,78 @@ function readyNow() {
         defaultDate: moment(),
         minDate: moment()
     });
+}
+
+// Deletes tasks from database and recalls data to DOM
+function clearCompleteClick() {
+    $('#delete-modal').modal('hide');
+    $.ajax({
+        method: 'DELETE',
+        url: '/tasks/' + toDeleteId + '/clearcomplete/'
+    }).done(function (response) {
+        // remove the selected row instead of getting all the tasks from the server and rendering it again
+        $('tr[data-id=' + toDeleteId + ']').fadeOut(500, function () {
+            $(this).remove();
+            // check to see if there still any tasks left
+            // if not then hide the table and show the alert again
+            if ($('#viewTasks').find('tr').length === 0) {
+                // there no more tasks
+                $('.alert-info').removeClass('hidden');
+                $('table').addClass('hidden');
+            }
+        });
+        $('#clearComplete').removeClass('hidden');
+        getTasks();
+    }).fail(function (error) {
+        console.log('Error deleting', error);
+    })
+}
+
+// Gets all completed tasks to DOM
+function completedBtnClick() {
+    console.log('in getTasks');
+    $.ajax({
+        type: 'GET',
+        url: '/tasks/completed'
+    }).done(function (response) {
+        console.log('got some tasks: ', response);
+        //Append to dom function
+        allTasks = response;
+        appendToDom(response);
+        var totalCompleted = response.length;
+        console.log('total, not complete');
+        console.log(totalCompleted, totalCompleted);
+        $('#total-results').text('Total Tasks Completed: ' + totalCompleted + '/' + totalCompleted);
+        $('#clearComplete').removeClass('hidden');
+    }).fail(function (error) {
+        console.log('GET failed:', error);
+    })
+}
+
+// Gets all actives tasks to DOM
+function activeBtnClick() {
+    console.log('in getTasks');
+    $.ajax({
+        type: 'GET',
+        url: '/tasks/active'
+    }).done(function (response) {
+        console.log('got some tasks: ', response);
+        //Append to dom function
+        allTasks = response;
+        appendToDom(response);
+        // get total 
+        var totalActive = response.length;
+        // get the not complete
+        var notComplete = response.filter(function (tasks) {
+            return tasks.status !== 'Complete';
+        }).length;
+        console.log('total, not complete');
+        console.log(totalActive, notComplete);
+        $('#total-results').text('Total Tasks Active: ' + notComplete + '/' + totalActive);
+        $('#clearComplete').addClass('hidden');
+    }).fail(function (error) {
+        console.log('GET failed:', error);
+    })
 }
 
 
@@ -110,7 +190,6 @@ function addButtonClick() {
             duedate: dueDate,
             status: status
         }
-
         if (editing === true) {
             editing = false;
             saveTask();
@@ -138,11 +217,19 @@ function getTasks() {
             $('.alert-info').addClass('hidden');
             $('table').removeClass('hidden');
             appendToDom(response);
+            // get total 
+            var total = response.length;
+            // get the not complete
+            var notComplete = response.filter(function (tasks) {
+                return tasks.status !== 'Complete';
+            }).length;
+            console.log('total, not complete');
+            console.log(total, notComplete);
+            $('#total-results').text('Total Tasks: ' + notComplete + '/' + total);
         } else {
             $('.alert-info').removeClass('hidden');
             $('table').addClass('hidden');
         }
-
     }).fail(function (error) {
         console.log('GET failed:', error);
     })
