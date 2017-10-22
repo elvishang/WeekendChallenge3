@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="styles/style.css">
     <title>To Do List</title>
 </head>
-
 <body>
     <div class="container">
         <h1>To-Do List</h1>
@@ -69,7 +68,6 @@
                     </div>
                 </div>
                 <input type="text" class="hidden" id="statusHidden">
-
                 <button type="button" class="btn btn-primary submit pull-right" id="addButton">Save Task</button>
                 <button type="button" class="btn btn-warning submit pull-right" id="cancelBtn">Cancel</button>
                 <div class="clearfix"></div>
@@ -77,7 +75,6 @@
         </div>
         <!-- Alerts user when there are no tasks -->
         <div class="alert text-center alert-info" role="alert">You have no Tasks</div>
-
         <table class="hidden table table-bordered">
             <thead>
                 <tr>
@@ -97,17 +94,12 @@
                 </tr>
             </tbody>
         </table>
-
-
-
-
         <!-- promts when user chooses to delete task -->
         <div id="delete-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
                         <h4>Are you sure?</h4>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
@@ -117,5 +109,4 @@
             </div>
         </div>
 </body>
-
 </html>
