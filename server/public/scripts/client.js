@@ -418,6 +418,7 @@ function editTasksFunction() {
     $('#addTaskBtn').css("visibility", "hidden");
     // shows 'form' when edit is clicked
     $('.collapse').collapse('show');
+    $('#saveAdd').addClass('hidden')
 };
 
 // Updates the edits of tasks called inside addButtonClick function
@@ -447,6 +448,7 @@ function saveTask() {
         $('#addTaskBtn').css("visibility", "visible");
         // hides 'form' after 'save task' is completed
         $('.collapse').collapse('hide');
+        $('#saveAdd').removeClass('hidden');
         getTasks();
     }).fail(function (error) {
         console.log('error getting update tasks back:', error)
