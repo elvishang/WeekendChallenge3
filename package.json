@@ -20,6 +20,7 @@
   "homepage": "https://github.com/elvishang/WeekendChallenge3#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "express": "^4.16.2",
     "pg": "^7.3.0"
   }
