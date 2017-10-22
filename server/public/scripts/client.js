@@ -197,6 +197,8 @@ function closeForm() {
     $('#addTaskBtn').css("visibility", "visible");
     $('#saveAdd').text('Add More Than One');
     $('#saveAdd').removeClass('hidden');
+    $('#addtask .form-control').val('');
+    $('#addButton').text('Submit')
 }
 
 // function to show form when add task button is clicked
