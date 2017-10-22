@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <!-- Added bootstrap/moment to sources -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -19,89 +20,102 @@
 <body>
     <div class="container">
         <h1>To-Do List</h1>
-        <button class="btn btn-primary" id="addTaskBtn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Add Task
-              </button>
-              <div class="collapse" id="collapseExample">
-                    <div id="addtask">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="task">Task</label>
-                                        <input class="form-control" type="text" id="taskIn" value="">
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="priority">Priority</label>
-                                        <select class="form-control" id="priorityIn">
-                                            <option value="">Select a priority</option>
-                                            <option value="High">High</option>
-                                            <option value="Normal">Normal</option>
-                                            <option value="Low">Low</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label for="startDate">Start Date</label>
-                                    <div class="input-group date date-picker" id="startDateIn" data-datepicker-format="mm/dd/yyyy">
-                                        <input class="form-control" size="16" type="text">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label for="dueDate">Due Date</label>
-                                    <div class="input-group date date-picker" id="dueDateIn" data-datepicker-format="mm/dd/yyyy">
-                                        <input class="form-control" size="16" type="text">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="text" class="hidden" id="statusHidden">
-                            
-                            <button type="button" class="btn btn-primary submit pull-right" id="addButton">Save Task</button>
-                            <button type="button" class="btn btn-warning submit pull-right" id="cancelBtn">Cancel</button>
+        <button class="btn btn-primary" id="addTaskBtn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+            aria-controls="collapseExample">
+            Add Task
+        </button>
+        <!-- Collapses Form -->
+        <div class="collapse" id="collapseExample">
+            <div id="addtask">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="task">Task</label>
+                            <input class="form-control" type="text" id="taskIn" value="">
                         </div>
-              </div>
-        
-        <div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Task</th>
-                        <th>Proirity</th>
-                        <th>Start Date</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="viewTasks">
-                </tbody>
-        </div>
-
-
-              
-
-
-        <div id="delete-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-                <div class="modal-dialog modal-sm" role="document">
-                  <div class="modal-content">
-                              <div class="modal-body">
-                                    <h4>Are you sure?</h4>
-                                  
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                                <button type="button" class="btn btn-success delete">Yes</button>
-                              </div>
-                  </div>
+                    </div>
                 </div>
-              </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="priority">Priority</label>
+                            <select class="form-control" id="priorityIn">
+                                <option value="">Select a priority</option>
+                                <option value="High">High</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="startDate">Start Date</label>
+                        <div class="input-group date" id="startDateIn" data-datepicker-format="mm/dd/yyyy">
+                            <input class="form-control" size="16" type="text">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="dueDate">Due Date</label>
+                        <div class="input-group date" id="dueDateIn" data-datepicker-format="mm/dd/yyyy">
+                            <input class="form-control" size="16" type="text">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" class="hidden" id="statusHidden">
+
+                <button type="button" class="btn btn-primary submit pull-right" id="addButton">Save Task</button>
+                <button type="button" class="btn btn-warning submit pull-right" id="cancelBtn">Cancel</button>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- Alerts user when there are no tasks -->
+        <div class="alert text-center alert-info" role="alert">You have no Tasks</div>
+
+        <table class="hidden table table-bordered">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Proirity</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="viewTasks">
+                <tr>
+                    <td colspan="6">
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+        <!-- promts when user chooses to delete task -->
+        <div id="delete-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4>Are you sure?</h4>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-success delete">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>

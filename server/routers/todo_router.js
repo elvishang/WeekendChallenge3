@@ -5,7 +5,7 @@ var pool = require('../modules/pool.js');
 var router = express.Router();
 
 
-
+//Get data from db
 router.get('/', function (req, res) {
     pool.connect(function (errorConnectingToDB, db, done) {
         if (errorConnectingToDB) {
@@ -50,7 +50,8 @@ router.post('/', function (req, res) {
     });
 });
 
-router.put('/:id', function (req, res) { //update task info PUT
+//Updates tasks route
+router.put('/:id', function (req, res) {
     var taskId = req.params.id;
     var task = req.body;
     console.log(task);
@@ -74,7 +75,7 @@ router.put('/:id', function (req, res) { //update task info PUT
     });
 });
 
-
+//Get from ids to select
 router.get('/:id', function (req, res) {
     var taskId = req.params.id;
     console.log('GETting task #' + taskId);
@@ -97,6 +98,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
+//Delete ids of tasks
 router.delete('/:id', function (req, res) {
     var taskId = req.params.id;
     pool.connect(function (errorConnectingToDB, db, done) {

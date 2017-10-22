@@ -33,7 +33,7 @@ This weekend is all about showing us that you have a handle on each of the diffe
 [X] Use jQuery to add animation to your page when you add or remove an item to the list.
 
 ## Pro Mode
-[] Publish your app to Heroku.
+[X] Publish your app to Heroku.
 
 [X] Adjust the logic so that completed tasks are brought to the bottom of the page, where the remaining tasks left to complete are brought to the top of the list.
 
