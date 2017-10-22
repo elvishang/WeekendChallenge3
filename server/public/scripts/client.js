@@ -196,11 +196,13 @@ function closeForm() {
     $('.collapse').collapse('hide');
     $('#addTaskBtn').css("visibility", "visible");
     $('#saveAdd').text('Add More Than One');
+    $('#saveAdd').removeClass('hidden');
 }
 
 // function to show form when add task button is clicked
 function showForm() {
     $(this).css("visibility", "hidden");
+    $('#saveAdd').removeClass('hidden');
 }
 
 
