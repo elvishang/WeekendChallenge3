@@ -26,10 +26,10 @@ router.get('/', function (req, res) {
     });
 });
 
+//recieves request from POST on client side
 router.post('/', function (req, res) {
     var task = req.body;
     console.log(task);
-
     pool.connect(function (errorConnectingToDB, db, done) {
         if (errorConnectingToDB) {
             console.log('error connecting to db', errorConnectingToDB);
@@ -162,6 +162,7 @@ router.delete('/:id', function (req, res) {
     });
 });
 
+// route to delete all 'Complete' tasks
 router.delete('/:id/clearcomplete', function (req, res) {
     var taskId = req.params.id;
     pool.connect(function (errorConnectingToDB, db, done) {

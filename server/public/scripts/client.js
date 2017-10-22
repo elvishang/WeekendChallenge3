@@ -88,6 +88,7 @@ function completedBtnClick() {
         var totalCompleted = response.length;
         console.log('total, not complete');
         console.log(totalCompleted, totalCompleted);
+        //shows ammount of tasks completed
         $('#total-results').text('Total Tasks Completed: ' + totalCompleted + '/' + totalCompleted);
         $('#clearComplete').removeClass('hidden');
     }).fail(function (error) {
@@ -114,6 +115,7 @@ function activeBtnClick() {
         }).length;
         console.log('total, not complete');
         console.log(totalActive, notComplete);
+        //shows total about of tasks active vs total
         $('#total-results').text('Total Tasks Active: ' + notComplete + '/' + totalActive);
         $('#clearComplete').addClass('hidden');
     }).fail(function (error) {
@@ -227,7 +229,9 @@ function getTasks() {
             console.log(total, notComplete);
             $('#total-results').text('Total Tasks: ' + notComplete + '/' + total);
         } else {
+            // shoes alert modal when there are no current tasks
             $('.alert-info').removeClass('hidden');
+            // hides 'table header' from DOM when no current tasks
             $('table').addClass('hidden');
         }
     }).fail(function (error) {
@@ -246,7 +250,9 @@ function sendTask(newTask) {
         console.log('added', response);
         newTask.id = response;
         getTasks();
+        // shows 'add task' button when form is complete
         $("#addTaskBtn").css("visibility", "visible");
+        // hides form after clicked
         $('.collapse').collapse('hide');
     }).fail(function (error) {
         console.log('Failed:', error);
@@ -338,7 +344,9 @@ function editTasksFunction() {
     $('#priorityIn').val(priority);
     $('#startDateIn').data('DateTimePicker').date(startDate);
     $('#dueDateIn').data('DateTimePicker').date(dueDate);
+    // Hides 'add task' button from DOM when edit is clicked
     $('#addTaskBtn').css("visibility", "hidden");
+    // shows 'form' when edit is clicked
     $('.collapse').collapse('show');
 };
 
@@ -363,8 +371,11 @@ function saveTask() {
         data: updateTask
     }).done(function (response) {
         console.log('send edits function response:', response)
+        // removes btn-success style from button if in 'edit' mode
         $('#addButton').text('Add Task').removeClass("btn-success");
+        // shows 'add task' button back to DOM
         $('#addTaskBtn').css("visibility", "visible");
+        // hides 'form' after 'save task' is completed
         $('.collapse').collapse('hide');
         getTasks();
     }).fail(function (error) {
