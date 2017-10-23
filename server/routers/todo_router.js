@@ -78,7 +78,7 @@ router.get('/active', function (req, res) {
             console.log('error connecting to db', errorConnectingToDB);
             res.sendStatus(500);
         } else {
-            var queryText = 'SELECT * FROM "todolist" WHERE "status" = $1 OR "status" = $2 ORDER BY "status" DESC, "duedate" DESC';
+            var queryText = 'SELECT * FROM "todolist" WHERE "status" = $1 OR "status" = $2 ORDER BY "status" DESC, "duedate" ASC, "priority" ASC';
             db.query(queryText, ['In Progress', 'Not Started'], function (errorMakingQuery, result) {
                 done();
                 if (errorMakingQuery) {
@@ -140,7 +140,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
-//Delete ids of tasks
+//Delete single ids of tasks
 router.delete('/:id', function (req, res) {
     var taskId = req.params.id;
     pool.connect(function (errorConnectingToDB, db, done) {
@@ -164,7 +164,6 @@ router.delete('/:id', function (req, res) {
 
 // route to delete all 'Complete' tasks
 router.delete('/:id/clearcomplete', function (req, res) {
-    var taskId = req.params.id;
     pool.connect(function (errorConnectingToDB, db, done) {
         if (errorConnectingToDB) {
             console.log('error connecting to db', errorConnectingToDB);
@@ -185,15 +184,14 @@ router.delete('/:id/clearcomplete', function (req, res) {
 });
 
 // request to delete all tasks
-router.delete('/:id/clearall', function (req, res) {
-    var taskId = req.params.id;
+router.delete('/', function (req, res) {
     pool.connect(function (errorConnectingToDB, db, done) {
         if (errorConnectingToDB) {
             console.log('error connecting to db', errorConnectingToDB);
             res.sendStatus(500);
         } else {
-            var queryText = 'DELETE FROM "todolist" WHERE "status" = $1 OR "status" = $2 OR "status" = $3';
-            db.query(queryText, ['Complete', 'In Progress', 'Not Started'], function (errorMakingQuery, result) {
+            var queryText = 'DELETE FROM "todolist";';
+            db.query(queryText, function (errorMakingQuery, result) {
                 done();
                 if (errorMakingQuery) {
                     console.log('error making query', errorMakingQuery, result)
@@ -206,8 +204,8 @@ router.delete('/:id/clearall', function (req, res) {
     });
 });
 
+// deletes incompleted tasks
 router.delete('/:id/clearincomplete', function (req, res) {
-    var taskId = req.params.id;
     pool.connect(function (errorConnectingToDB, db, done) {
         if (errorConnectingToDB) {
             console.log('error connecting to db', errorConnectingToDB);

@@ -14,7 +14,7 @@ function readyNow() {
     $('#addButton').on('click', addButtonClick);
     // delete button confirmation
     $('#viewTasks').on('click', '.delete', confirmDeleteTask);
-    // delete
+    // delete task
     $('#delete-modal').on('click', '.delete', deleteTask);
     // edit tasks
     $('#viewTasks').on('click', '.editTasks', editTasksFunction);
@@ -33,7 +33,11 @@ function readyNow() {
     // deletes all current completed tasks from db on clicked
     $('#clearComplete').on('click', clearCompleteClick);
     $('#saveAdd').on('click', saveAddClick);
-    $('#clearAll').on('click', clearAll);
+
+    $('#clearAll').on('click', confirmClearAll);
+
+    $('#clearAllModal').on('click', '#deleteEverything', clearAll);
+
     $('#clearIncomplete').on('click', clearIncompleteClick)
     // allows to choose date with calendar
     $('#startDateIn').datetimepicker({
@@ -51,6 +55,11 @@ function readyNow() {
         defaultDate: moment(),
         minDate: moment()
     });
+}
+// confirms delete all tasks
+function confirmClearAll() {
+    console.log('confirmClearAll modal is called');
+    $('#clearAllModal').modal();
 }
 
 function clearIncompleteClick() {
@@ -79,13 +88,13 @@ function clearIncompleteClick() {
 }
 // Deletes all data
 function clearAll() {
-    $('#delete-modal').modal('hide');
+    $('#clearAllModal').modal('hide');
     $.ajax({
         method: 'DELETE',
-        url: '/tasks/' + toDeleteId + '/clearall/'
+        url: '/tasks'
     }).done(function (response) {
         // remove the selected row instead of getting all the tasks from the server and rendering it again
-        $('tr[data-id=' + toDeleteId + ']').fadeOut(500, function () {
+        $('tr').fadeOut(500, function () {
             $(this).remove();
             // check to see if there still any tasks left
             // if not then hide the table and show the alert again
@@ -95,7 +104,6 @@ function clearAll() {
                 $('table').addClass('hidden');
             }
         });
-        getTasks();
     }).fail(function (error) {
         console.log('Error deleting', error);
     })
@@ -129,7 +137,6 @@ function saveAddClick() {
     var dueDate = $('#dueDateIn').data('DateTimePicker').date().format('MM/DD/YYYY');
     var status = 'Not Started'
     // get user input form validation
-
     var formComplete = true;
     if (task === '') {
         formComplete = false;
@@ -255,35 +262,20 @@ function closeForm() {
     $('#saveAdd').text('Add More Than One');
     $('#saveAdd').removeClass('hidden');
     $('#addtask .form-control').val('');
-    $('#addButton').text('Submit')
-    $('#allTasksBtn').removeClass('hidden')
-    $('#activeBtn').removeClass('hidden')
-    $('#completedBtn').removeClass('hidden')
-    $('#clearAll').removeClass('hidden')
-    $('#clearComplete').removeClass('hidden')
-    $('#clearIncomplete').removeClass('hidden')
-    $('.delete').removeAttr('disabled', 'disabled')
+    $('#addButton').text('Submit');
+    $('#allTasksBtn').removeClass('hidden');
+    $('#activeBtn').removeClass('hidden');
+    $('#completedBtn').removeClass('hidden');
+    $('#clearAll').removeClass('hidden');
+    $('#clearComplete').removeClass('hidden');
+    $('#clearIncomplete').removeClass('hidden');
+    $('.delete').removeAttr('disabled', 'disabled');
 }
 
 // function to show form when add task button is clicked
 function showForm() {
     $(this).css("visibility", "hidden");
     $('#saveAdd').removeClass('hidden');
-    $('#startDateIn').datetimepicker({
-        format: 'MM/DD/YYYY',
-        defaultDate: moment()
-    }).on('dp.change', function (e) {
-        // start date changed
-        // update due data min date to start date
-        $('#dueDateIn').data('DateTimePicker').minDate(e.date);
-    });
-
-    // target due date and set minDate to startDate
-    $('#dueDateIn').datetimepicker({
-        format: 'MM/DD/YYYY',
-        defaultDate: moment(),
-        minDate: moment()
-    });
     $('#addButton').text('Submit')
 }
 
