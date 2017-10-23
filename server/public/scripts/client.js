@@ -256,6 +256,12 @@ function closeForm() {
     $('#saveAdd').removeClass('hidden');
     $('#addtask .form-control').val('');
     $('#addButton').text('Submit')
+    $('#allTasksBtn').removeClass('hidden')
+    $('#activeBtn').removeClass('hidden')
+    $('#completedBtn').removeClass('hidden')
+    $('#clearAll').removeClass('hidden')
+    $('#clearComplete').removeClass('hidden')
+    $('#clearIncomplete').removeClass('hidden')
 }
 
 // function to show form when add task button is clicked
