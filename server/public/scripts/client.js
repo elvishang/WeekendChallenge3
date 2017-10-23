@@ -262,6 +262,7 @@ function closeForm() {
     $('#clearAll').removeClass('hidden')
     $('#clearComplete').removeClass('hidden')
     $('#clearIncomplete').removeClass('hidden')
+    $('.delete').removeAttr('disabled', 'disabled')
 }
 
 // function to show form when add task button is clicked
@@ -440,6 +441,7 @@ function deleteTask() {
                 $('table').addClass('hidden');
             }
         });
+
     }).fail(function (error) {
         console.log('Error deleting', error);
     })
@@ -507,6 +509,7 @@ function editTasksFunction() {
     $('#dueDateIn').data('DateTimePicker').date(dueDate);
     // Hides 'add task' button from DOM when edit is clicked
     $('#addTaskBtn').css("visibility", "hidden");
+    $('.delete').attr('disabled', 'disabled')
     // shows 'form' when edit is clicked
     $('.collapse').collapse('show');
     $('#saveAdd').addClass('hidden')
@@ -552,6 +555,7 @@ function saveTask() {
         $('#clearAll').removeClass('hidden')
         $('#clearComplete').removeClass('hidden')
         $('#clearIncomplete').removeClass('hidden')
+        $('.delete').removeAttr('disabled', 'disabled')
         getTasks();
     }).fail(function (error) {
         console.log('error getting update tasks back:', error)
