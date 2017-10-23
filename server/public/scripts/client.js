@@ -268,6 +268,22 @@ function closeForm() {
 function showForm() {
     $(this).css("visibility", "hidden");
     $('#saveAdd').removeClass('hidden');
+    $('#startDateIn').datetimepicker({
+        format: 'MM/DD/YYYY',
+        defaultDate: moment()
+    }).on('dp.change', function (e) {
+        // start date changed
+        // update due data min date to start date
+        $('#dueDateIn').data('DateTimePicker').minDate(e.date);
+    });
+
+    // target due date and set minDate to startDate
+    $('#dueDateIn').datetimepicker({
+        format: 'MM/DD/YYYY',
+        defaultDate: moment(),
+        minDate: moment()
+    });
+    $('#addButton').text('Submit')
 }
 
 
