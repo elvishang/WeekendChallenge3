@@ -488,6 +488,12 @@ function editTasksFunction() {
     // shows 'form' when edit is clicked
     $('.collapse').collapse('show');
     $('#saveAdd').addClass('hidden')
+    $('#allTasksBtn').addClass('hidden')
+    $('#activeBtn').addClass('hidden')
+    $('#completedBtn').addClass('hidden')
+    $('#clearAll').addClass('hidden')
+    $('#clearComplete').addClass('hidden')
+    $('#clearIncomplete').addClass('hidden')
 };
 
 // Updates the edits of tasks called inside addButtonClick function
@@ -518,6 +524,12 @@ function saveTask() {
         // hides 'form' after 'save task' is completed
         $('.collapse').collapse('hide');
         $('#saveAdd').removeClass('hidden');
+        $('#allTasksBtn').removeClass('hidden')
+        $('#activeBtn').removeClass('hidden')
+        $('#completedBtn').removeClass('hidden')
+        $('#clearAll').removeClass('hidden')
+        $('#clearComplete').removeClass('hidden')
+        $('#clearIncomplete').removeClass('hidden')
         getTasks();
     }).fail(function (error) {
         console.log('error getting update tasks back:', error)
