@@ -17,4 +17,13 @@
 
 #clearComplete {
     float: right;
+    margin-right: 5px;
+}
+#clearAll {
+    float: right;
+}
+
+#clearIncomplete {
+    float: right;
+    margin-right: 5px;
 }

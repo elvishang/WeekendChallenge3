@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <title>To Do List</title>
 </head>
+
 <body>
     <div class="container">
         <h1>To-Do List</h1>
@@ -97,13 +98,15 @@
             <tfoot>
                 <tr>
                     <td id="total-results">
-                        
+
                     </td>
                     <td colspan="5">
                         <button class="btn btn-primary text-center" id="allTasksBtn">All Tasks</button>
-                        <button class="btn btn-danger text-center" id="activeBtn">Active</button>
+                        <button class="btn btn-warning text-center" id="activeBtn">Incompleted</button>
                         <button class="btn btn-success text-center" id="completedBtn">Completed</button>
-                        <button class="btn btn-warning text-center" id="clearComplete">Clear Completed Tasks</button>
+                        <button class="btn btn-danger text-center" id="clearAll">Clear All Tasks</button>
+                        <button class="btn btn-default text-center" id="clearComplete">Clear Completed</button>
+                        <button class="btn btn-default text-center" id="clearIncomplete">Clear Incompleted</button>
                     </td>
                 </tr>
             </tfoot>
@@ -123,4 +126,5 @@
             </div>
         </div>
 </body>
+
 </html>

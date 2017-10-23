@@ -12,7 +12,7 @@ router.get('/', function (req, res) {
             console.log('error connecting to db', errorConnectingToDB);
             res.sendStatus(500);
         } else {
-            var queryText = 'SELECT * FROM todolist ORDER BY "status" DESC, "duedate" DESC';
+            var queryText = 'SELECT * FROM "todolist" ORDER BY "status" DESC, "duedate" DESC';
             db.query(queryText, function (errorMakingQuery, result) {
                 done();
                 if (errorMakingQuery) {
@@ -57,7 +57,7 @@ router.get('/completed', function (req, res) {
             console.log('error connecting to db', errorConnectingToDB);
             res.sendStatus(500);
         } else {
-            var queryText = 'SELECT * FROM todolist WHERE "status" = $1 ORDER BY "status" DESC, "duedate" DESC';
+            var queryText = 'SELECT * FROM "todolist" WHERE "status" = $1 ORDER BY "status" DESC, "duedate" DESC';
             db.query(queryText, ['Complete'], function (errorMakingQuery, result) {
                 done();
                 if (errorMakingQuery) {
@@ -78,7 +78,7 @@ router.get('/active', function (req, res) {
             console.log('error connecting to db', errorConnectingToDB);
             res.sendStatus(500);
         } else {
-            var queryText = 'SELECT * FROM todolist WHERE "status" = $1 OR "status" = $2 ORDER BY "status" DESC, "duedate" DESC';
+            var queryText = 'SELECT * FROM "todolist" WHERE "status" = $1 OR "status" = $2 ORDER BY "status" DESC, "duedate" DESC';
             db.query(queryText, ['In Progress', 'Not Started'], function (errorMakingQuery, result) {
                 done();
                 if (errorMakingQuery) {
@@ -184,5 +184,47 @@ router.delete('/:id/clearcomplete', function (req, res) {
     });
 });
 
+// request to delete all tasks
+router.delete('/:id/clearall', function (req, res) {
+    var taskId = req.params.id;
+    pool.connect(function (errorConnectingToDB, db, done) {
+        if (errorConnectingToDB) {
+            console.log('error connecting to db', errorConnectingToDB);
+            res.sendStatus(500);
+        } else {
+            var queryText = 'DELETE FROM "todolist" WHERE "status" = $1 OR "status" = $2 OR "status" = $3';
+            db.query(queryText, ['Complete', 'In Progress', 'Not Started'], function (errorMakingQuery, result) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('error making query', errorMakingQuery, result)
+                    res.sendStatus(500);
+                } else {
+                    res.send(result.rows);
+                }
+            });
+        }
+    });
+});
+
+router.delete('/:id/clearincomplete', function (req, res) {
+    var taskId = req.params.id;
+    pool.connect(function (errorConnectingToDB, db, done) {
+        if (errorConnectingToDB) {
+            console.log('error connecting to db', errorConnectingToDB);
+            res.sendStatus(500);
+        } else {
+            var queryText = 'DELETE FROM "todolist" WHERE "status" = $1 OR "status" = $2';
+            db.query(queryText, ['In Progress', 'Not Started'], function (errorMakingQuery, result) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('error making query', errorMakingQuery, result)
+                    res.sendStatus(500);
+                } else {
+                    res.send(result.rows);
+                }
+            });
+        }
+    });
+});
 
 module.exports = router;
